@@ -2,19 +2,27 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://mininice.github.io/blog/2013/09/18/test/</loc>
-        <lastmod>2013-09-18T20:13:34+08:00</lastmod>
+        <lastmod>2013-09-18T21:35:51+08:00</lastmod>
     </url>
     <url>
         <loc>http://mininice.github.io/blog/2013/09/18/yuan-xing-lian/</loc>
-        <lastmod>2013-09-18T21:27:10+08:00</lastmod>
+        <lastmod>2013-09-18T21:29:39+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mininice.github.io/blog/2013/09/18/yun-xing-ji-zhi/</loc>
+        <lastmod>2013-09-18T22:15:39+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mininice.github.io/blog/2013/09/18/ec-plus-vo-plus-scope-for-es3/</loc>
+        <lastmod>2013-09-18T22:18:01+08:00</lastmod>
     </url>
     <url>
         <loc>http://mininice.github.io/blog/archives/</loc>
-        <lastmod>2013-09-18T21:27:10+08:00</lastmod>
+        <lastmod>2013-09-18T22:18:01+08:00</lastmod>
     </url>
     <url>
         <loc>http://mininice.github.io/</loc>
-        <lastmod>2013-09-18T21:27:10+08:00</lastmod>
+        <lastmod>2013-09-18T22:18:01+08:00</lastmod>
     </url>
     <url>
         <loc>http://mininice.github.io/robots.txt</loc>
