@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[我的手越肮脏 眼神越是发光 你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
+  <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-09-18T19:18:06+08:00</updated>
+  <updated>2013-09-18T21:27:10+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -14,18 +14,248 @@
 
   
   <entry>
+    <title type="html"><![CDATA[原型链]]></title>
+    <link href="http://mininice.github.io/blog/2013/09/18/yuan-xing-lian/"/>
+    <updated>2013-09-18T20:16:00+08:00</updated>
+    <id>http://mininice.github.io/blog/2013/09/18/yuan-xing-lian</id>
+    <content type="html"><![CDATA[<h3>概述</h3>
+
+<p>每一个构造函数都有一个原型属性, 称为prototype, 它指向一个对象, 这个对象称为原型对象;</p>
+
+<p>原型模式广泛应用于原生的引用类型如Object、Array、String等, 但不推荐在程序中修改原生对象的原型, 容易导致命名冲突；</p>
+
+<p>JS原型对象初始化，参考函数创建的简单步骤，如下:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>
+</span><span class='line'><span class="nx">F</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NativeObject</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//第一步：设置Class:function;</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Class</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;Function&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//第二步：函数对象的隐式prototype指向Function的显示原型, function的prototype也是一个对象, 是Object对象的实例, Object又是由Function构建出来的， 所以可以循环此步骤;</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Prototype</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//第三步：初始化</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Call</span><span class="p">]]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">reference</span> <span class="nx">to</span> <span class="kd">function</span><span class="o">&gt;</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Construct</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">internalConstructor</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//第四步：初始化当前执行上下文的作用域链</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Scope</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">activeContext</span><span class="p">.</span><span class="nx">Scope</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 如果函数通过new Function(...)来创建，那么</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Scope</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">globalContext</span><span class="p">.</span><span class="nx">Scope</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//第五步：初始化传入参数的个数</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">countParameters</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//第六步：F对象创建的原型</span>
+</span><span class='line'><span class="nx">__objectPrototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'><span class="nx">__objectPrototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">F</span>
+</span><span class='line'><span class="nx">F</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">__objectPrototype</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">F</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>原型对象</h3>
+
+<h4>什么是原型对象</h4>
+
+<ul>
+<li>从上面可以看出, 每个函数在创建的时候，会为函数创建一个prototype属性， 这个属性指向函数的原型对象;</li>
+<li>默认所有原型对象自动获得constructor属性；constructor又引用了函数本身，所以就成就了JS中的构造函数和prototype的循环引用；</li>
+</ul>
+
+
+<h4>原型对象的问题</h4>
+
+<ul>
+<li>原型对象是由所有实例共享，对于包含引用类型值的属性来说，修改会影响到所有的实例；</li>
+</ul>
+
+
+<h3>原型链</h3>
+
+<p>一般的解释:</p>
+
+<ul>
+<li>所有对象都可以有原型，并且原型也是对象，所以接着它们也可以有原型，原型又可以有原型，如此就形成了所谓的原型链。当链条中的对象有一个值为null 的原型时，原型链终止。</li>
+</ul>
+
+
+<p>ECMA的解释：</p>
+
+<ul>
+<li>Every object created by a constructor has an implicit reference (called the object’s prototype) to the value of its constructor’s “prototype” property. Furthermore, a prototype may have a non-null implicit reference to its prototype, and so on; this is called the prototype chain.</li>
+</ul>
+
+
+<p>看了如上中文解释，你肯定会困扰吧？是因为它只一味的提到原型； 而没有对隐式的原型 [[prototype]]和显示的prototype进行区分；</p>
+
+<p>所以你可能会认为, 按照第一种解释如下代码先寻找A.prototype, 发现A.prototype = null; 原型链终止，A.toString是不是会报undefined呢？</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">//分析function A的原型链</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">A</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再看英文解释：
+Every object created by a constructor has an implicit reference (called the object’s prototype) to the value of its constructor’s “prototype” property；</p>
+
+<p>非常清晰：</p>
+
+<ul>
+<li>所有由构造器创建的对象都有一个隐式的prototype， 它指向构造器的prototype属性</li>
+<li>所以原型链其实是由当前对象的隐式prototype指针指向的对象的隐式prototype指针指向的对象的&hellip;., 直到隐式prototype指向的对象为空为至；有点饶；</li>
+</ul>
+
+
+<h3>Object的prototype是null吗?</h3>
+
+<p>解释一：Object 构造器的默认原型值为null；</p>
+
+<p>解释二：</p>
+
+<p>15.2.4 Properties of the Object Prototype Object</p>
+
+<p>The value of the [[Prototype]] internal property of the Object prototype object is null, the value of the [[Class]] internal property is &ldquo;Object&rdquo;, and the initial value of the [[Extensible]] internal property is true.</p>
+
+<p>解释一也存在和上面一样的问题,而英文的解释则非常明显:</p>
+
+<p>并非<code>Object.prototype = null</code>而是<code>function Object</code>中的隐式的<code>prototype</code>为<code>null</code>, 如下:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nb">Object</span><span class="p">()</span> <span class="p">{};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'><span class="nx">obj</span><span class="p">.[[</span><span class="nx">prototype</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span>
+</span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.[[</span><span class="nx">prototype</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>示例</h3>
+
+<p>看了上述的描述， 如果你完全理解了显示prototype和隐式prototype，我想你应该会很快n能画出如下对象的原型链了。试试看吧：</p>
+
+<p>示例1：请描述a对象的原型链</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">b</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="o">:</span> <span class="mi">3</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">A</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>示例二：请描述b对象的原型链</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">b</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="o">:</span> <span class="mi">3</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">B</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">A</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">B</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[hello world]]></title>
     <link href="http://mininice.github.io/blog/2013/09/18/test/"/>
     <updated>2013-09-18T12:11:00+08:00</updated>
     <id>http://mininice.github.io/blog/2013/09/18/test</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>blog终于搭起来了, 想起了一句话： 少了大的惊喜, 也要找点小快乐!</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;mininice&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">company</span><span class="o">:</span> <span class="s1">&#39;MEITUAN&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">position</span><span class="o">:</span> <span class="s1">&#39;FE&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">skills</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;javascript&quot;</span><span class="p">,</span> <span class="s2">&quot;css&quot;</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">],</span>
+</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;thinkable.love@gmail.com&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'>
+</span><span class='line'>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>kd</code>jfkdj</p>
+
 ]]></content>
   </entry>
   
