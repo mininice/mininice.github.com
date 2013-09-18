@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[我的手越肮脏 眼神越是发光 你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-09-18T12:15:51+08:00</updated>
+  <updated>2013-09-18T19:18:06+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[mininice]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[kdjflksjfkl]]></title>
+    <title type="html"><![CDATA[hello world]]></title>
     <link href="http://mininice.github.io/blog/2013/09/18/test/"/>
     <updated>2013-09-18T12:11:00+08:00</updated>
     <id>http://mininice.github.io/blog/2013/09/18/test</id>
-    <content type="html"><![CDATA[<p>test</p>
+    <content type="html"><![CDATA[
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>kd</code>jfkdj</p>
 ]]></content>
   </entry>
   
