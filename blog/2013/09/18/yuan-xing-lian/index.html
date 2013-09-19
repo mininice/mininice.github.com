@@ -9,7 +9,35 @@
   <meta name="author" content="mininice">
 
   
-  <meta name="description" content="原型对象 每一个构造函数都有一个原型属性, 称为prototype, 它指向一个对象, 这个对象称为原型对象; 原型模式广泛应用于原生的引用类型如Object、Array、String等, 但不推荐在程序中修改原生对象的原型, 容易导致命名冲突； JS原型对象初始化，参考函数创建的简单步骤，如下 &hellip;">
+  <meta name="description" content="原型对象 JS原型对象初始化 参考函数创建的简单步骤，如下: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29 F = new NativeObject(); //第一步：设置Class: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,11 +123,9 @@
 
 <div class="entry-content"><h3>原型对象</h3>
 
-<p>每一个构造函数都有一个原型属性, 称为prototype, 它指向一个对象, 这个对象称为原型对象;</p>
+<h4>JS原型对象初始化</h4>
 
-<p>原型模式广泛应用于原生的引用类型如Object、Array、String等, 但不推荐在程序中修改原生对象的原型, 容易导致命名冲突；</p>
-
-<p>JS原型对象初始化，参考函数创建的简单步骤，如下:</p>
+<p>参考函数创建的简单步骤，如下:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -165,8 +191,8 @@
 <h4>什么是原型对象</h4>
 
 <ul>
-<li>从上面可以看出, 每个函数在创建的时候，会为函数创建一个prototype属性， 这个属性指向函数的原型对象;</li>
-<li>默认所有原型对象自动获得constructor属性；constructor又引用了函数本身，所以就成就了JS中的构造函数和prototype的循环引用；</li>
+<li><p>从上面可以看出, 每一个构造函数都有一个原型属性, 称为prototype, 它指向一个对象, 这个对象称为原型对象;</p></li>
+<li><p>默认所有原型对象自动获得constructor属性；constructor又引用了函数本身，所以也形成了JS中的构造函数和prototype的循环引用；</p></li>
 </ul>
 
 
@@ -174,6 +200,7 @@
 
 <ul>
 <li>原型对象是由所有实例共享，对于包含引用类型值的属性来说，修改会影响到所有的实例；</li>
+<li>原型模式广泛应用于原生的引用类型如Object、Array、String等, 但不推荐在程序中修改原生对象的原型, 容易导致命名冲突；</li>
 </ul>
 
 
