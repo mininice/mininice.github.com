@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-09-22T14:50:15+08:00</updated>
+  <updated>2013-09-22T17:31:05+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -193,7 +193,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-
+<p>当然目前这个code只能满足从1开始递增的数据, 当然如果是随意的矩阵， 只需要将n维矩阵转换为一维数组，同时结果作为数组下标即可得到输出；</p>
 ]]></content>
   </entry>
   
