@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-09-19T09:06:36+08:00</updated>
+  <updated>2013-09-22T14:50:15+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -12,6 +12,190 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[矩阵打印]]></title>
+    <link href="http://mininice.github.io/blog/2013/09/22/ju-zhen-da-yin/"/>
+    <updated>2013-09-22T14:30:00+08:00</updated>
+    <id>http://mininice.github.io/blog/2013/09/22/ju-zhen-da-yin</id>
+    <content type="html"><![CDATA[<p>在群里看到一道题目, 按一定的方式打印矩阵中相应位置的值</p>
+
+<p><img src="http://mininice.github.io/images/timu.jpg"></p>
+
+<h3>看到题目直接写的代码草稿:</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">getNum</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">exp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;i * (n-1) +1&quot;</span><span class="p">,</span> <span class="s2">&quot;(n-1)*n+i&quot;</span><span class="p">,</span> <span class="s2">&quot;n*(n-i-1) + (n-i)&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">1</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">getNum</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">arr</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">})(</span><span class="mi">5</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>代码解耦:</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">getNum</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">exp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;i * (n-1) +1&quot;</span><span class="p">,</span> <span class="s2">&quot;(n-1)*n+i&quot;</span><span class="p">,</span> <span class="s2">&quot;n*(n-i-1) + (n-i)&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">1</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">temp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">temp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">temp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">temp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">temp</span> <span class="o">=</span> <span class="nx">getNum</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">arr</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">temp</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">})(</span><span class="mi">5</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>代码最终优化后：</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">getNum</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">exp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;i * (n-1) +1&quot;</span><span class="p">,</span> <span class="s2">&quot;(n-1)*n+i&quot;</span><span class="p">,</span> <span class="s2">&quot;n*(n-i-1) + (n-i)&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">||</span> <span class="p">((</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">type</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="nx">n</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>        <span class="p">(</span><span class="nx">type</span> <span class="o">===</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">temp</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nx">exp</span><span class="p">[</span><span class="nx">type</span><span class="p">]));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">arr</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">getNum</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">i</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">})(</span><span class="mi">5</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[EC+VO+SCOPE for ES3]]></title>
