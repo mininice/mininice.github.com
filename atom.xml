@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-10-09T12:13:33+08:00</updated>
+  <updated>2013-10-09T13:37:27+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -297,7 +297,7 @@ hasplug   <br/>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>使用插件的两种方式</h4>
+<h4>使用插件的几种方式</h4>
 
 <p>给一个node节点添加一个插件</p>
 
@@ -312,6 +312,60 @@ hasplug   <br/>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Y</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#foo&#39;</span><span class="p">).</span><span class="nx">plug</span><span class="p">(</span><span class="nx">NodeDrag</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3、具体widget</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">Widget</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="nx">Y</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Base</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">initializer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Widget</span><span class="p">({</span><span class="nx">plugins</span><span class="o">:</span> <span class="nx">NodeDrag</span><span class="p">});</span>
+</span><span class='line'><span class="c1">//var w = new Widget({plugins: [NodeDrag, ..]});</span>
+</span><span class='line'><span class="c1">//var w = new Widget({plugins: {fn: NodeDrag, cfg: {} });</span>
+</span><span class='line'><span class="c1">//w.plug(NodeDrag, cfg);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在一些情况，为了让调用者不必过多的关心实现细节的时候，也将插件的初始化放到具体widget的实现中, 如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Widget</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">drag</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">Y</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Base</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">initializer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;drag&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">NodeDrag</span><span class="p">,</span> <span class="nx">cfg</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
