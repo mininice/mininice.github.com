@@ -594,20 +594,16 @@ hasplug   <br/>
 <table style="text-align: center;">
   <tbody>
     <tr>
-      <th>输入类型</th>
-      <th>
-        <p>ToPrimitive</p>
-      </th>
-      <th colspan="1">
-        <p>ToBoolean</p>
-      </th>
+      <th width="80px">输入类型</th>
+      <th><span style="color: rgb(0,51,102);">ToPrimitive</span></th>
+      <th colspan="1"><span style="color: rgb(0,51,102);"> ToBoolean</span></th>
       <th colspan="1">
         <span style="color: rgb(0,51,102);">ToNumber</span>
       </th>
       <th colspan="1">
         <span style="color: rgb(0,51,102);">ToString</span>
       </th>
-      <th colspan="1">
+      <th colspan="1" width="120px">
         <span style="color: rgb(0,51,102);">ToObject</span>
       </th>
     </tr>
@@ -639,8 +635,8 @@ hasplug   <br/>
         <span>不转换</span>
       </td>
       <td colspan="1">不转换</td>
-      <td colspan="1">false为+0，true为1</td>
-      <td colspan="1">true=&gt;&#8221;true&#8221;, false=&gt;&#8221;false&#8221;</td>
+      <td colspan="1">false->+0，true->1</td>
+      <td colspan="1">true->&#8221;true&#8221;, false->&#8221;false&#8221;</td>
       <td colspan="1">
         <p>new Boolean(参数)，<span style="color: rgb(0,0,0);font-size: 10.0pt;line-height: 13.0pt;">设置[[PrimitiveValue]] 为参数值</span>
         </p>
@@ -651,7 +647,7 @@ hasplug   <br/>
       <td>
         <span>不转换</span>
       </td>
-      <td colspan="1">[+-]0、<span style="color: rgb(0,0,0);">NaN</span>转换为false， else true</td>
+      <td colspan="1">[+-]0、NaN->false</td>
       <td colspan="1">不转换</td>
       <td colspan="1">见规范9.8.1</td>
       <td colspan="1">
@@ -664,7 +660,7 @@ hasplug   <br/>
       <td>
         <span>不转换</span>
       </td>
-      <td colspan="1">空字符串转换为false，else true</td>
+      <td colspan="1">&#8221;&#8221;->false</td>
       <td colspan="1">转化比较复杂，见规范9.3.1</td>
       <td colspan="1">不转换</td>
       <td colspan="1">
@@ -686,16 +682,10 @@ hasplug   <br/>
         <span style="color: rgb(0,0,0);">true</span>
       </td>
       <td colspan="1">
-        <p style="text-align: center;">
-          <code style="font-size: 10.0pt;line-height: 13.0pt;">ToNumber</code>
-          <span style="font-size: 10.0pt;line-height: 13.0pt;">(</span> <code>ToPrimitive</code>( hint:数值类型)<span style="font-size: 10.0pt;line-height: 13.0pt;">)</span>
-        </p>
+          ToNumber(ToPrimitive(hint:数值类型)</span>
       </td>
       <td colspan="1">
-        <p>
-          <code style="text-align: center;">ToString</code>
-          <span>(</span> <code>ToPrimitive</code>( hint:字符串值类型)<span style="font-size: 10.0pt;line-height: 13.0pt;">)</span>
-        </p>
+          ToString(ToPrimitive( hint:字符串值类型))
       </td>
       <td colspan="1">不转换</td>
     </tr>
