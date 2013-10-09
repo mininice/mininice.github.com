@@ -416,3 +416,34 @@ aside.sidebar .friend-link li { float:left; padding:0.5em 1em; border:0;box-shad
 aside.sidebar .friend-link li:first-child { padding-left:0; }
 aside.sidebar .friend-link a { text-decoration:none; color:#666; font-size:16px; }
 aside.sidebar .friend-link a:hover { text-decoration:none; color:#008000; }
+
+/* TABLES */
+table {
+    width:100%;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+table table { width:auto;}
+th,
+td {
+    word-break:break-all;
+    word-wrap:break-word;
+    font-size:13px; 
+}
+th {
+    background:#f2f2f2;
+    border-bottom:1px solid #e4e4e4;
+    color:#000;
+}
+td {
+    border-bottom:1px solid #e4e4e4;
+}
+tbody tr:nth-of-type(odd) {
+}
+table.noborder th,
+table.noborder td {
+    border:0;
+}
+table.noborder {
+    margin-bottom:0;
+}
