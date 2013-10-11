@@ -9,9 +9,9 @@
   <meta name="author" content="mininice">
 
   
-  <meta name="description" content="plugin功能包括如下几个模块， 简单分析如下： pluginhost-base 维护对象 this.plugins = {}；
-提供方法: plug
-unplug hasplug destroyPlugins initPlugins: 调用模块 pluginhost-config &hellip;">
+  <meta name="description" content="源码分析： plugin功能包括如下几个模块， 简单分析如下： pluginhost-base 维护对象 this._plugins = {}；
+并提供方法: plug、unplug、hasplug、_destroyPlugins、_initPlugins
+plug: 初始化插件实例， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,104 +95,18 @@ unplug hasplug destroyPlugins initPlugins: 调用模块 pluginhost-config &helli
   </header>
 
 
-<div class="entry-content"><p>plugin功能包括如下几个模块， 简单分析如下：</p>
+<div class="entry-content"><h3>源码分析：</h3>
 
-<h3>pluginhost-base</h3>
+<p>plugin功能包括如下几个模块， 简单分析如下：</p>
 
-<p>维护对象 this.<em>plugins = {}；
-提供方法: <br/>
-plug<br/>
-unplug <br/>
-hasplug   <br/>
-</em>destroyPlugins</p>
-
-<p><em>initPlugins: 调用模块 pluginhost-config 中的</em>initConfigPlugins(config);</p>
+<h4>pluginhost-base</h4>
 
 <ul>
-<li>根据this._classes(原型链上的constructor对象)上的静态属性 _PLUG and _UNPLUG, 来初始化plugin</li>
-<li>通过widget初始化时的config配置, 来初始化plugin</li>
-<li>在YUI Widget体系中base-core模块用来初始化插件, 初始化所有ext和ATTRS后调用</li>
+<li><p>维护对象 this._plugins = {}；</p></li>
+<li><p>并提供方法: plug、unplug、hasplug、_destroyPlugins、_initPlugins</p></li>
+<li><p>plug: 初始化插件实例，并与host进行关联</p></li>
 </ul>
 
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">PluginHost</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_initConfigPlugins</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Class Configuration</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">classes</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_getClasses</span><span class="p">)</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getClasses</span><span class="p">()</span> <span class="o">:</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">constructor</span><span class="p">],</span>
-</span><span class='line'>        <span class="nx">plug</span> <span class="o">=</span> <span class="p">[],</span>
-</span><span class='line'>        <span class="nx">unplug</span> <span class="o">=</span> <span class="p">{},</span>
-</span><span class='line'>        <span class="nx">constructor</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">classPlug</span><span class="p">,</span> <span class="nx">classUnplug</span><span class="p">,</span> <span class="nx">pluginClassName</span><span class="p">;</span>
-</span><span class='line'>    <span class="c1">// TODO: Room for optimization. Can we apply statically/unplug in same pass?</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="nx">classes</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">constructor</span> <span class="o">=</span> <span class="nx">classes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="nx">classUnplug</span> <span class="o">=</span> <span class="nx">constructor</span><span class="p">.</span><span class="nx">_UNPLUG</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">classUnplug</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// subclasses over-write</span>
-</span><span class='line'>            <span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">unplug</span><span class="p">,</span> <span class="nx">classUnplug</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="nx">classPlug</span> <span class="o">=</span> <span class="nx">constructor</span><span class="p">.</span><span class="nx">_PLUG</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">classPlug</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// subclasses over-write</span>
-</span><span class='line'>            <span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">plug</span><span class="p">,</span> <span class="nx">classPlug</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nx">pluginClassName</span> <span class="k">in</span> <span class="nx">plug</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">plug</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">pluginClassName</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">unplug</span><span class="p">[</span><span class="nx">pluginClassName</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">plug</span><span class="p">[</span><span class="nx">pluginClassName</span><span class="p">]);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// User Configuration</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span> <span class="o">&amp;&amp;</span> <span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>plug</h4>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -243,7 +157,96 @@ hasplug   <br/>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>pluginhost-config</h3>
+<ul>
+<li>_initPlugins: 调用模块 pluginhost-config 中的_initConfigPlugins(config);
+
+<ul>
+<li>根据this._classes(原型链上的constructor对象)上的静态属性 _PLUG and _UNPLUG, 来初始化plugin</li>
+<li>通过widget初始化时的config配置, 来初始化plugin</li>
+<li>在YUI Widget体系中base-core模块用来初始化插件, 初始化所有ext和ATTRS后调用</li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">PluginHost</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="err">\</span><span class="nx">_initConfigPlugins</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Class Configuration</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">classes</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_getClasses</span><span class="p">)</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getClasses</span><span class="p">()</span> <span class="o">:</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">constructor</span><span class="p">],</span>
+</span><span class='line'>        <span class="nx">plug</span> <span class="o">=</span> <span class="p">[],</span>
+</span><span class='line'>        <span class="nx">unplug</span> <span class="o">=</span> <span class="p">{},</span>
+</span><span class='line'>        <span class="nx">constructor</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">classPlug</span><span class="p">,</span> <span class="nx">classUnplug</span><span class="p">,</span> <span class="nx">pluginClassName</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// TODO: Room for optimization. Can we apply statically/unplug in same pass?</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="nx">classes</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">constructor</span> <span class="o">=</span> <span class="nx">classes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">classUnplug</span> <span class="o">=</span> <span class="nx">constructor</span><span class="p">.</span><span class="nx">_UNPLUG</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">classUnplug</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// subclasses over-write</span>
+</span><span class='line'>            <span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">unplug</span><span class="p">,</span> <span class="nx">classUnplug</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">classPlug</span> <span class="o">=</span> <span class="nx">constructor</span><span class="p">.</span><span class="nx">_PLUG</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">classPlug</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// subclasses over-write</span>
+</span><span class='line'>            <span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">plug</span><span class="p">,</span> <span class="nx">classPlug</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nx">pluginClassName</span> <span class="k">in</span> <span class="nx">plug</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">plug</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">pluginClassName</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">unplug</span><span class="p">[</span><span class="nx">pluginClassName</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">plug</span><span class="p">[</span><span class="nx">pluginClassName</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// User Configuration</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span> <span class="o">&amp;&amp;</span> <span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">plugins</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>pluginhost-config</h4>
 
 <ul>
 <li>_initConfigPlugins</li>
@@ -252,7 +255,7 @@ hasplug   <br/>
 </ul>
 
 
-<h3>base-pluginhost</h3>
+<h4>base-pluginhost</h4>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -267,13 +270,10 @@ hasplug   <br/>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>plugin</h3>
+<h4>plugin</h4>
 
-<ol>
-<li>继承Y.Base</li>
-<li>提供AOP的一系列方法， 如：</li>
-</ol>
-
+<p><em>. 继承Y.Base
+</em>. 提供AOP的一系列方法， 如：</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -332,7 +332,7 @@ hasplug   <br/>
 
 <h3>总结</h3>
 
-<h4>如何写一个插件</h4>
+<h4>一、如何写一个插件</h4>
 
 <p>1、 任何简单对象即可成为一个简单插件， 如:</p>
 
@@ -374,7 +374,7 @@ hasplug   <br/>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>使用插件的几种方式</h4>
+<h4>二、使用插件的几种方式</h4>
 
 <p>给一个node节点添加一个插件</p>
 
@@ -446,6 +446,18 @@ hasplug   <br/>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h4>三、插件的一些优势和适合的场景</h4>
+
+<ul>
+<li>插件一般是基于host开发的扩展功能， 用以对host功能的增强，如一些动画效果、也类如dota游戏中一些英雄所具有的各种技能等</li>
+<li>插件机制能对复杂功能进行更好的抽象, 减少代码逻辑的耦合
+
+<ul>
+<li>如，在代码中由于加入一个功能，会涉及到很多代码片段加入if else 判断逻辑, 那么可以考虑将这个功能作为一个plugin增强， 使用AOP的方式与原来代码逻辑关联起来</li>
+</ul>
+</li>
+<li>通过host进行统一的入口管理</li>
+</ul>
 
 </div>
 
@@ -489,6 +501,8 @@ hasplug   <br/>
         <a class="basic-alignment left" href="/blog/2013/10/08/dui-xiang-lei-xing-he-biao-da-shi-yun-suan/" title="Previous Post: 数据类型及转换">&laquo; 数据类型及转换</a>
       
       
+        <a class="basic-alignment right" href="/blog/2013/10/10/composite/" title="Next Post: 组合关系的程序设计">组合关系的程序设计 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -511,6 +525,10 @@ hasplug   <br/>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/10/10/composite/">组合关系的程序设计</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/10/09/plugin/">YUI3组件框架之plugin</a>
       </li>
     
@@ -524,10 +542,6 @@ hasplug   <br/>
     
       <li class="post">
         <a href="/blog/2013/09/18/ec-plus-vo-plus-scope-for-es3/">EC+VO+SCOPE for ES3</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/18/yun-xing-ji-zhi/">Javascript运行机制</a>
       </li>
     
   </ul>

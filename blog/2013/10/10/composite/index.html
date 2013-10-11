@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>组合关系的程序设计 - 你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降</title>
+  <meta name="author" content="mininice">
+
+  
+  <meta name="description" content="组合（Composite） 对象A包含对象B，对象B离开对象A没有实际意义。是一种更强的关联关系。人包含手，手离开人的躯体就失去了它应有的作用。 场景： Window窗体由滑动条slider、头部Header 和工作区Panel组合而成。 组合模式 将对象组合成树形结构以表示&#8221;部分- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mininice.github.io/blog/2013/10/10/composite">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.bak.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降</a></h1>
+  
+    <!-- <h2>A blogging framework for hackers.</h2> -->
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:mininice.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">组合关系的程序设计</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T19:12:00+08:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
+        
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>组合（Composite）</h3>
+
+<p>对象A包含对象B，对象B离开对象A没有实际意义。是一种更强的关联关系。人包含手，手离开人的躯体就失去了它应有的作用。</p>
+
+<p>场景： Window窗体由滑动条slider、头部Header 和工作区Panel组合而成。
+<img src="/images/NewComposite.png"></p>
+
+<h4>组合模式</h4>
+
+<p>将对象组合成树形结构以表示&#8221;部分-整体&#8221;的层次结构。 组合模式使得用户对单个对象和组合对象的使用具有一致性.</p>
+
+<p>看完YUI widget的相关设计，包括插件和扩展机制后， 类似这个场景，觉得如下方式都可以考虑，对比如下:</p>
+
+<h3>1. 普通的mixin || 组合</h3>
+
+<ul>
+<li>mixin 是一种不需要用到严格的继承就可以复用代码的一种技术。如果多个类想用到某个类的某个方法，可以通过扩充这些类的原型已达到共享该方法。</li>
+<li>YUI widget设计中大量采用了这种方式，如base-base、 attribute-base等模块，目的是提供一个统一的外部功能调用的入口</li>
+<li>模糊被组合对象的功能所属</li>
+<li>Widget中的oop提供的build增加扩展的方式，本质上也是mixin</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">Slider</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="nx">Slider</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drag</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Header</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span><span class='line'><span class="nx">Header</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">addTitle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Panel</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span><span class='line'><span class="nx">Panel</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">doSomething</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Window</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">Slider</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">Header</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">Panel</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">Window</span><span class="p">,</span> <span class="nx">Slider</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">Window</span><span class="p">,</span> <span class="nx">Header</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">Window</span><span class="p">,</span> <span class="nx">Panel</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2. plugin</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">Window</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">Header</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">Slider</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">plug</span><span class="p">(</span><span class="nx">Panel</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虽然插件也能勉强实现功能，不过类似这种场景不太适合用插件来实现</p>
+
+<ul>
+<li>由于插件的NS机制, 插件对象的功能不能直接作为Window对象的功能调用</li>
+<li>插件对象是基于实例, 也就是说每个window实例，都有三个相关的实例对象与其关联，浪费了资源</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">mininice</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T19:12:00+08:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2013/10/10/composite/" data-via="" data-counturl="http://mininice.github.io/blog/2013/10/10/composite/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/09/plugin/" title="Previous Post: YUI3组件框架之plugin">&laquo; YUI3组件框架之plugin</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/10/composite/">组合关系的程序设计</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/09/plugin/">YUI3组件框架之plugin</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/08/dui-xiang-lei-xing-he-biao-da-shi-yun-suan/">数据类型及转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/22/ju-zhen-da-yin/">矩阵打印</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/18/ec-plus-vo-plus-scope-for-es3/">EC+VO+SCOPE for ES3</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - mininice -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'pinpinzhu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mininice.github.io/blog/2013/10/10/composite/';
+        var disqus_url = 'http://mininice.github.io/blog/2013/10/10/composite/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
