@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-10-11T19:39:09+08:00</updated>
+  <updated>2013-10-30T10:52:58+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[事件碎碎念]]></title>
+    <link href="http://mininice.github.io/blog/2013/10/30/events/"/>
+    <updated>2013-10-30T10:52:00+08:00</updated>
+    <id>http://mininice.github.io/blog/2013/10/30/events</id>
+    <content type="html"><![CDATA[<p>事件分为：</p>
+
+<p>1、原始事件或输入事件 与 语义事件</p>
+
+<ul>
+<li>输入事件又包括： 鼠标事件 或 键盘事件：</li>
+</ul>
+
+
+<p>2、与设备有关的和与设备无关的事件</p>
+
+<h3>DOM 0级</h3>
+
+<ul>
+<li><p>onclick事件可以看着一个设备无关的事件，因为他并不依赖鼠标， 表单控件和超链接的键盘激活也会触发此事件</p></li>
+<li><p>可以显示调用事件句柄， 但是不是模拟事件发生时的真正状况， 而只是执行句柄函数而已。 如：</p></li>
+<li><p>调用form上的document.myform.onsubmit(); 如果onsubmit函数里面没有form.submit()的话， 就不会触发表单提交</p></li>
+<li><p>事件句柄触发时，作为发生事件元素的方法调用，在函数中，关键字this指向发生事件的元素；</p></li>
+</ul>
+
+
+<h3>DOM2级—— 向后兼容0级</h3>
+
+<ul>
+<li><p>事件分为三个阶段： 捕获、目标节点触发、 冒泡</p></li>
+<li><p>阻止冒泡： e.stopPropagation()</p></li>
+<li><p>阻止默认行为： 默认行为在事件第三个阶段完成后才执行， 可使用e.preventDefault()阻止</p></li>
+<li><p>可以为特定对象的特定类型事件注册任意多个处理器函数</p></li>
+<li><p>DOM标准不确定调用一个对象的事件处理函数的顺序， 所以不认为他们是以注册的顺序调用</p></li>
+<li><p>如果在同一个元素上多次注册了同一个处理函数， 那么第一次注册后的所有注册都将被忽略</p></li>
+<li><p>e.currentTarget VS e.target &lt;=> 当前正在处理的节点 VS 发生事件的节点</p></li>
+</ul>
+
+
+<h3>IE的事件模型【4、5、5.5、6】—— 介于0级到2级之间</h3>
+
+<ul>
+<li><p>使用attachEvent， 只支持冒泡阶段</p></li>
+<li><p>回调函数中this指向window</p></li>
+<li><p>允许同一个事件句柄函数注册多次， 且事件发生的时候调用多次</p></li>
+<li><p>e.srcElement： 发生事件的节点</p></li>
+<li><p>e.cancelBubble=true，可以阻止当前事件进一步冒泡到包容层次的元素</p></li>
+<li><p>e.returnValue=false 阻止默认行为</p></li>
+</ul>
+
+
+<h3>按键事件 【keydown、 keypress、 keyup】</h3>
+
+<ul>
+<li><p>在2级的DOM事件模型中没有标准化， 且不同浏览器处理的方式也有所不同</p></li>
+<li><p>典型的按键会按序产生： keydown-> keypress &ndash;> keyup, 按键一直按下时，可能触发多个keypress（不同的操作系统和浏览器可能会有所不同, 实际在chrome中keydown、和keypress都会多次触发）</p></li>
+<li><p>在IE中， 只有当按键有一个ASCII码的时候， 即当它是一个可打印字符或者控制字符的时候， keypress才会发生， 同时IE也会认为Alt按键组合是无法打印的，所以也不会产生keypress事件</p></li>
+<li><p>不能打印的功能按键，如Backspace、Enter、Escape、 方向键、 PageUp、 PageDown、F1到F12</p></li>
+<li><p>keydown事件对于功能案件来说是最有用的， 而keypress事件对于可打印案件来说是最有用的</p></li>
+<li><p>不同的浏览器发送的keyCode、charCode等也有不同， 一般情况keyCode存储较低层的虚拟按键码并和keydown事件一起发送， charCode存储了可打印的字符编码和keypress一起发送， 如果一个功能按键产生了keypress事件， 那么keyCode是0(firefox中)， 另外在IE中只有一个keyCode属性，当keydown触发时他代码虚拟按键码，keypress触发时，代表字符码</p></li>
+<li><p>可使用 String.fromCharCode(&lsquo;0x57&rsquo;)来将字符码转换为字符</p></li>
+</ul>
+
+
+<h3>判断特性</h3>
+
+<p>判断DOM标准的方法： document.implementation.hasFeature(&lsquo;Events&rsquo;, &lsquo;2.0&rsquo;)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[组合关系与组合模式]]></title>
