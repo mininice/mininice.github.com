@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-10-30T10:52:58+08:00</updated>
+  <updated>2013-11-06T21:32:48+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iframe和页面之间的通信]]></title>
+    <link href="http://mininice.github.io/blog/2013/11/06/iframe/"/>
+    <updated>2013-11-06T20:26:00+08:00</updated>
+    <id>http://mininice.github.io/blog/2013/11/06/iframe</id>
+    <content type="html"><![CDATA[<h4>获取iframe对象</h4>
+
+<p>iframe元素本身是位于父级页面中的，所以你可以像一个普通元素一样的使用和操作它</p>
+
+<p>代表了iframe内容window对象是作为一个页面的属性加入到iframe中的, 为了让父级页面能够以一种合适的方式获取iframe的window对象，父级页面和iframe页面的域名应该保持一致</p>
+
+<p>iframe元素拥有名为contentDocument、parentWindow、contentWindow（全兼容）等属性</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">如：</span><span class="nx">iframeElement</span><span class="p">.</span><span class="nx">contentWindow</span> <span class="o">||</span> <span class="nx">iframeElement</span><span class="p">.</span><span class="nx">contentDocument</span><span class="p">.</span><span class="nx">parentWindow</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">父级页面的</span><span class="nb">window</span><span class="err">对象在</span><span class="nx">iframe</span><span class="err">中也能够以</span><span class="nb">window</span><span class="p">.</span><span class="nx">parent</span><span class="err">获取</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>判断 iframe 是否加载完毕的方法（也适用于script加载）</h4>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">js</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">js</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;loaded&#39;</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;complete&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// callback在此处执行</span>
+</span><span class='line'>        <span class="nx">js</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">js</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//为了兼顾事件的一致性，改代码如下：</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">iframe</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;iframe&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">iframe</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;simpleinner.htm&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">iframe</span><span class="p">.</span><span class="nx">attachEvent</span><span class="p">){</span>
+</span><span class='line'>    <span class="nx">iframe</span><span class="p">.</span><span class="nx">attachEvent</span><span class="p">(</span><span class="s2">&quot;onload&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>        <span class="nx">iframeOnload</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">iframe</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>        <span class="nx">iframeOnload</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">iframe</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">iframeOnload</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Local iframe is now loaded.&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>iframe 解决跨域问题</h4>
+
+<h5>什么是跨域</h5>
+
+<p>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象</p>
+
+<p>首先什么是跨域，简单地理解就是因为JavaScript同源策略的限制，a.com 域名下的js无法操作b.com或是c.a.com域名下的对象</p>
+
+<p>域仅仅是通过&#8221;URL的首部&#8221;来识别， &ldquo;URL的首部&#8221;指window.location.protocol+window.location.host，也可以理解为&#8221;Domains, protocols and ports must match&rdquo;</p>
+
+<h5>方法一： document.domain + iframe</h5>
+
+<p>解决主域相同而二级域名不同的情况， 达到两个页面相互通信的目的。</p>
+
+<h5>方法二： iframe + location.hash</h5>
+
+<p>由于改变hash并不会导致页面刷新，如:<a href="http://a.com#helloword">http://a.com#helloword</a> 中的&#8217;#helloworld&#8217;就是location.hash, 所以可以利用hash来在url中传值</p>
+
+<p>不在同一个域下的两个页面,IE、Chrome不允许修改parent.location.hash的值(Firefox可以修改), 所以需要借助一个iframe作为代理, 修改iframe上url的hash值来达到传递数据的目的, 此时在父级页面上加一个定时器，隔一段时间来获取location.hash值，如果有变化或符合处理的要求, 及关掉间隔执行，如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">先是</span><span class="nx">a</span><span class="p">.</span><span class="nx">com</span><span class="err">下的文件</span><span class="nx">cs1</span><span class="p">.</span><span class="nx">html</span><span class="err">文件：</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">page1</span><span class="o">:</span><span class="err">父页面</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">checkHash</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">?</span> <span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>        <span class="c1">//do something...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">setInterval</span><span class="p">(</span><span class="nx">checkHash</span><span class="p">,</span> <span class="mi">2000</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">page2</span><span class="o">:</span> <span class="err">子页面</span>
+</span><span class='line'><span class="k">try</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">parent</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="s1">&#39;somedata&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ie、chrome的安全机制无法修改parent.location.hash，</span>
+</span><span class='line'>    <span class="c1">// 所以要利用一个代理iframe</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">ifrproxy</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;iframe&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">ifrproxy</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">ifrproxy</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">page1</span> <span class="o">+</span> <span class="s1">&#39;#somedata&#39;</span><span class="p">;</span>    <span class="c1">// 父页面修改hash</span>
+</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ifrproxy</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>缺点</h5>
+
+<p>方法一：安全性，当一个站点（b.a.com）被攻击后，另一个站点（c.a.com）会引起安全漏洞</p>
+
+<p>方法二：数据直接暴露在了url中，数据容量和类型都有限</p>
+
+<h3>参考</h3>
+
+<p><a href="http://www.cnblogs.com/rainman/archive/2011/02/20/1959325.html">http://www.cnblogs.com/rainman/archive/2011/02/20/1959325.html</a>
+<a href="http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/">http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[事件碎碎念]]></title>
