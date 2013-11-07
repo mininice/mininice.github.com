@@ -178,15 +178,17 @@
 
 <p>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象</p>
 
-<p>首先什么是跨域，简单地理解就是因为JavaScript同源策略的限制，a.com 域名下的js无法操作b.com或是c.a.com域名下的对象</p>
+<p>因为JavaScript同源策略的限制，a.com 域名下的js无法操作b.com或是c.a.com域名下的对象, 导致了跨域问题</p>
 
 <p>域仅仅是通过&#8221;URL的首部&#8221;来识别， &ldquo;URL的首部&#8221;指window.location.protocol+window.location.host，也可以理解为&#8221;Domains, protocols and ports must match&rdquo;</p>
 
 <h5>方法一： document.domain + iframe</h5>
 
-<p>解决主域相同而二级域名不同的情况， 达到两个页面相互通信的目的。</p>
+<p>解决主域相同而二级域名不同的情况， 达到两个页面相互通信的目的.</p>
 
 <h5>方法二： iframe + location.hash</h5>
+
+<p>解决不同于下面的两个页面的通信问题.</p>
 
 <p>由于改变hash并不会导致页面刷新，如:<a href="http://a.com#helloword">http://a.com#helloword</a> 中的&#8217;#helloworld&#8217;就是location.hash, 所以可以利用hash来在url中传值</p>
 
