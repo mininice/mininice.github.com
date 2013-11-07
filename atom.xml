@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-11-07T09:41:37+08:00</updated>
+  <updated>2013-11-07T09:42:12+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -110,7 +110,7 @@
 
 <h5>方法二： iframe + location.hash</h5>
 
-<p>解决不同于下面的两个页面的通信问题.</p>
+<p>解决不同域名下的两个页面的通信问题.</p>
 
 <p>由于改变hash并不会导致页面刷新，如:<a href="http://a.com#helloword">http://a.com#helloword</a> 中的&#8217;#helloworld&#8217;就是location.hash, 所以可以利用hash来在url中传值</p>
 
