@@ -4,7 +4,7 @@
   <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-11-06T21:32:48+08:00</updated>
+  <updated>2013-11-07T09:39:18+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -137,6 +137,10 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
 </pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">先是</span><span class="nx">a</span><span class="p">.</span><span class="nx">com</span><span class="err">下的文件</span><span class="nx">cs1</span><span class="p">.</span><span class="nx">html</span><span class="err">文件：</span>
 </span><span class='line'>
 </span><span class='line'><span class="nx">page1</span><span class="o">:</span><span class="err">父页面</span>
@@ -157,9 +161,13 @@
 </span><span class='line'>    <span class="c1">// 所以要利用一个代理iframe</span>
 </span><span class='line'>    <span class="kd">var</span> <span class="nx">ifrproxy</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;iframe&#39;</span><span class="p">);</span>
 </span><span class='line'>    <span class="nx">ifrproxy</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">ifrproxy</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">page1</span> <span class="o">+</span> <span class="s1">&#39;#somedata&#39;</span><span class="p">;</span>    <span class="c1">// 父页面修改hash</span>
+</span><span class='line'>    <span class="nx">ifrproxy</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">page3</span> <span class="o">+</span> <span class="s1">&#39;#somedata&#39;</span><span class="p">;</span>    <span class="c1">//page3与父页面在同一个域下 </span>
 </span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ifrproxy</span><span class="p">);</span>
 </span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">page3</span><span class="o">:</span> <span class="err">代理</span><span class="nx">iframe</span><span class="err">页面</span>
+</span><span class='line'><span class="c1">//因为parent.parent和自身属于同一个域，所以可以改变其location.hash的值</span>
+</span><span class='line'><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
