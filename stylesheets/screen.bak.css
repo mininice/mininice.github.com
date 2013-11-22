@@ -89,7 +89,7 @@ body div.pagination{margin-left:18px;margin-right:18px}
 }
 @media only screen and (min-width: 992px){body div.pagination{margin-left:55px;margin-right:55px}
 }
-body > header{font-size:16px;padding-top:1.5em;padding-bottom:1.5em}
+body > header{font-size:16px;padding-top:10px;padding-bottom:10px }
 #content{overflow:hidden}
 #content > div,#content > article{width:100%}
 aside.sidebar{float:none;padding:0 18px 1px;background-color:#f7f7f7;border-top:1px solid #e0e0e0}

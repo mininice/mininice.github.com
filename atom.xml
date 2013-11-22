@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[你不在乎我的过往 看到了我的翅膀 你说被火烧过 才能出现凤凰 逆风的方向 更适合飞翔 我不怕千万人阻挡 只怕自己投降]]></title>
+  <title><![CDATA[mininice]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2013-11-07T09:42:12+08:00</updated>
+  <updated>2013-11-22T12:33:53+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iframe和页面之间的通信]]></title>
+    <title type="html"><![CDATA[iframe及与页面之间的通信]]></title>
     <link href="http://mininice.github.io/blog/2013/11/06/iframe/"/>
     <updated>2013-11-06T20:26:00+08:00</updated>
     <id>http://mininice.github.io/blog/2013/11/06/iframe</id>
