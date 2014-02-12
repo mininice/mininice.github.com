@@ -5,15 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>javascript运行机制 - mininice</title>
+  <title>node学习笔记2 —— npm包管理 - mininice</title>
   <meta name="author" content="mininice">
 
   
-  <meta name="description" content="运行顺序 读入第一个代码段（js执行引擎并非一行一行地执行程序，而是一段一段地分析执行的）
-做词法分析和语法分析，没错则解析成语法树，有错则报语法错误并跳转到步骤5
-对var变量和function定义做预解析
-执行代码段，有错则报错（比如变量未定义）
-如果还有下一个代码段，则读入下一个代码段， &hellip;">
+  <meta name="description" content="全局模式安装包 将包安装为全局可用的可执行命令， 并非可以从任意地方require
+将 package.json中bin定义的文件软链到统一的目录下， 该目录可以通过如下方式推算出来: path.resolve(process.execPath, &lsquo;..&rsquo;, &lsquo &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mininice.github.io/blog/2013/09/18/yun-xing-ji-zhi">
+  <link rel="canonical" href="http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.bak.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="mininice" type="application/atom+xml">
@@ -72,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">Javascript运行机制</h1>
+      <h1 class="entry-title">Node学习笔记2 —— Npm包管理</h1>
     
     
       <p class="meta">
@@ -88,7 +85,7 @@
   
 
 
-<time datetime="2013-09-18T22:07:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2014-02-12T14:17:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
         
 
         
@@ -97,49 +94,65 @@
   </header>
 
 
-<div class="entry-content"><h2>运行顺序</h2>
-
-<ol>
-<li>读入第一个代码段（js执行引擎并非一行一行地执行程序，而是一段一段地分析执行的）</li>
-<li>做词法分析和语法分析，没错则解析成语法树，有错则报语法错误并跳转到步骤5</li>
-<li>对var变量和function定义做预解析</li>
-<li>执行代码段，有错则报错（比如变量未定义）</li>
-<li>如果还有下一个代码段，则读入下一个代码段，重复步骤2</li>
-<li>结束
-</code></pre></li>
-</ol>
-
-
-<p>注: javascript是按块执行， 但是不同块属于同一个全局作用域， 即块之间的变量和函数是可以共享的；</p>
-
-<h2>词法分析</h2>
-
-<ol>
-<li><p>词法文法</p>
+<div class="entry-content"><h3>全局模式安装包</h3>
 
 <ul>
-<li><p>tokens： 文法终结符， 空白和注释之外的输入元素，如：ECMAScript语言的保留字，标识符，字面量，标点符号等</p></li>
-<li><p>行结束符虽然不被视为tokens，但会成为输入元素流的一部分，用于引导处理自动插入分号</p></li>
-<li><p>空白和单行注释会被简单的丢弃，不会出现在语法文法的输入元素的流中</p></li>
-<li><p>词法文法有两个目标符。InputElementDiv 目标符用在允许除法 (/) 或除赋值 (/=) 运算符开始的语法文法上下文中。InputElementRegExp 目标符用在其他语法文法上下文。</p></li>
+<li>将包安装为全局可用的可执行命令， 并非可以从任意地方require</li>
+<li>将 package.json中bin定义的文件软链到统一的目录下， 该目录可以通过如下方式推算出来: path.resolve(process.execPath, &lsquo;..&rsquo;, &lsquo;..&rsquo;, &lsquo;lib&rsquo;, &lsquo;node_modules&rsquo;);</li>
 </ul>
-</li>
-<li><p>词法分析</p>
-
-<p> 当一个字符流被解析为 ECMAScript 程序，它首先通过词法文法应用程序反复转换为一个输入元素流；然后再用一个语法文法应用程序解析这个输入元素流。当输入元素流没有更多 tokens 时，如果 tokens 不能解析为 Program 目标非终结符的单一实例，那么程序在语法上存在错误。</p></li>
-<li><p>目标非终结符: TODO</p></li>
-</ol>
 
 
-<h2>语法分析</h2>
+<h3>npm钩子命令</h3>
 
-<p>将词法分析阶段产生的记号， 生成语法树，如果无法生成，则报错；</p>
+<p>package.json中定义scripts字段， 如：</p>
 
-<ol>
-<li>符号表：记录变量、函数、类</li>
-<li>语法树：程序结构的树形表示，将此树形结构生成中间代码</li>
-</ol>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">script</span><span class="s2">&quot;: {</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">preinstall</span><span class="s2">&quot;: &quot;</span><span class="nx">preinstall</span><span class="p">.</span><span class="nx">js</span><span class="s2">&quot;,</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">install</span><span class="s2">&quot;: &quot;</span><span class="nx">install</span><span class="p">.</span><span class="nx">js</span><span class="s2">&quot;,</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">uninstall</span><span class="s2">&quot;: &quot;</span><span class="nx">uninstall</span><span class="p">.</span><span class="nx">js</span><span class="s2">&quot;,</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">test</span><span class="s2">&quot;: &quot;</span><span class="nx">test</span><span class="p">.</span><span class="nx">js</span><span class="err">&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
+
+<h3>npm install</h3>
+
+<ul>
+<li>可以从本地安装，也可以从某个可访问地址安装, 只需要相应的存在package.json的包说明文件</li>
+<li>npm install &lt;tarball file></li>
+<li>npm install &lt;tarball url></li>
+<li>npm install &lt;folder></li>
+</ul>
+
+
+<h3>npm ls</h3>
+
+<p>通过npm ls 命令确定当前目录下是否能通过require顺利引入想要的包</p>
+
+<h3>AMD CMD 的模块定义规范</h3>
+
+<ul>
+<li>AMD 是 RequireJS 在推广过程中对模块定义的规范化产出</li>
+<li>CMD 是 SeaJS 在推广过程中对模块定义的规范化产出</li>
+<li>是CommonJS模块规范的一个延伸， 用于浏览器端模块加载机制的设计</li>
+</ul>
+
+
+<h4>YUI &amp; SeaJS &amp; RequireJS 比较</h4>
+
+<ul>
+<li>YUI 模块加载后， 模块会被存入到相应的命名空间下， 所以需要配合命令空间来进行模块的管理</li>
+<li>而npm通过export 和同步require 来使用模块中的内容， 对浏览器端UI响应性能有一定的影响；</li>
+</ul>
+
+
+<p>TODO SeaJS RequireJS源码阅读</p>
 </div>
 
 
@@ -162,7 +175,7 @@
   
 
 
-<time datetime="2013-09-18T22:07:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2014-02-12T14:17:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
       
 
 
@@ -170,7 +183,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2013/09/18/yun-xing-ji-zhi/" data-via="" data-counturl="http://mininice.github.io/blog/2013/09/18/yun-xing-ji-zhi/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/" data-via="" data-counturl="http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/" >Tweet</a>
   
   
   
@@ -179,10 +192,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/09/18/yuan-xing-lian/" title="Previous Post: 原型链">&laquo; 原型链</a>
+        <a class="basic-alignment left" href="/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/" title="Previous Post: node学习笔记1——require参数查找策略">&laquo; node学习笔记1——require参数查找策略</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/18/ec-plus-vo-plus-scope-for-es3/" title="Next Post: EC+VO+SCOPE for ES3">EC+VO+SCOPE for ES3 &raquo;</a>
       
     </p>
   </footer>
@@ -251,8 +262,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mininice.github.io/blog/2013/09/18/yun-xing-ji-zhi/';
-        var disqus_url = 'http://mininice.github.io/blog/2013/09/18/yun-xing-ji-zhi/';
+        var disqus_identifier = 'http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/';
+        var disqus_url = 'http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/';
         var disqus_script = 'embed.js';
       
     (function () {

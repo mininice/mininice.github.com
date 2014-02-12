@@ -9,7 +9,8 @@
   <meta name="author" content="mininice">
 
   
-  <meta name="description" content="javascript中存在几种对URL字符串进行编码的方法：escape/encodeURI/encodeURIComponent。这几种编码所起的作用各不相同。 1.escape 采用ISO Latin字符集对指定的字符串进行编码。所有的空格符、标点符号、 &hellip;">
+  <meta name="description" content="全局模式安装包 将包安装为全局可用的可执行命令， 并非可以从任意地方require
+将 package.json中bin定义的文件软链到统一的目录下， 该目录可以通过如下方式推算出来: path.resolve(process.execPath, &lsquo;..&rsquo;, &lsquo &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,195 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/">Node学习笔记2 —— Npm包管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-12T14:17:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
+        
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>全局模式安装包</h3>
+
+<ul>
+<li>将包安装为全局可用的可执行命令， 并非可以从任意地方require</li>
+<li>将 package.json中bin定义的文件软链到统一的目录下， 该目录可以通过如下方式推算出来: path.resolve(process.execPath, &lsquo;..&rsquo;, &lsquo;..&rsquo;, &lsquo;lib&rsquo;, &lsquo;node_modules&rsquo;);</li>
+</ul>
+
+
+<h3>npm钩子命令</h3>
+
+<p>package.json中定义scripts字段， 如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">script</span><span class="s2">&quot;: {</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">preinstall</span><span class="s2">&quot;: &quot;</span><span class="nx">preinstall</span><span class="p">.</span><span class="nx">js</span><span class="s2">&quot;,</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">install</span><span class="s2">&quot;: &quot;</span><span class="nx">install</span><span class="p">.</span><span class="nx">js</span><span class="s2">&quot;,</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">uninstall</span><span class="s2">&quot;: &quot;</span><span class="nx">uninstall</span><span class="p">.</span><span class="nx">js</span><span class="s2">&quot;,</span>
+</span><span class='line'><span class="s2">    &quot;</span><span class="nx">test</span><span class="s2">&quot;: &quot;</span><span class="nx">test</span><span class="p">.</span><span class="nx">js</span><span class="err">&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>npm install</h3>
+
+<ul>
+<li>可以从本地安装，也可以从某个可访问地址安装, 只需要相应的存在package.json的包说明文件</li>
+<li>npm install &lt;tarball file></li>
+<li>npm install &lt;tarball url></li>
+<li>npm install &lt;folder></li>
+</ul>
+
+
+<h3>npm ls</h3>
+
+<p>通过npm ls 命令确定当前目录下是否能通过require顺利引入想要的包</p>
+
+<h3>AMD CMD 的模块定义规范</h3>
+
+<ul>
+<li>AMD 是 RequireJS 在推广过程中对模块定义的规范化产出</li>
+<li>CMD 是 SeaJS 在推广过程中对模块定义的规范化产出</li>
+<li>是CommonJS模块规范的一个延伸， 用于浏览器端模块加载机制的设计</li>
+</ul>
+
+
+<h4>YUI &amp; SeaJS &amp; RequireJS 比较</h4>
+
+<ul>
+<li>YUI 模块加载后， 模块会被存入到相应的命名空间下， 所以需要配合命令空间来进行模块的管理</li>
+<li>而npm通过export 和同步require 来使用模块中的内容， 对浏览器端UI响应性能有一定的影响；</li>
+</ul>
+
+
+<p>TODO SeaJS RequireJS源码阅读</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/">Node学习笔记1——require参数查找策略</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-12T14:15:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
+        
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>require参数类型</h3>
+
+<ul>
+<li>http、fs、path等,原生模块</li>
+<li>￼./mod或../mod,相对路径的文件模块</li>
+<li>/pathtomodule/mod,绝对路径的文件模块</li>
+<li>mod,非原生模块的文件模块</li>
+</ul>
+
+
+<h3>module paths</h3>
+
+<ul>
+<li>对于每一个被加载的文件模块, 创建这个模块对象的时候,这个模块便会有一个paths属性, 其值根据当前文件的路径计算得到， 如果当前的文件路径为：/Users/jiao/workspace/test.js， 这module.paths的结果如下：</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">[</span> <span class="s1">&#39;/Users/jiao/workspace/node_modules&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;/Users/jiao/node_modules&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;/Users/node_modules&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;/node_modules&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>除此之外还有一个全局module path,是当前node执行文件的相对目录 (../../lib/node)。如果在环境变量中设置了HOME目录和NODE_PATH目录的 话,整个路径还包含NODE_PATH和HOME目录下的.node_libraries 与.node_modules</li>
+</ul>
+
+
+<h3>查找策略</h3>
+
+<ul>
+<li>require() 通过分析文件路径和扩展名， 找到文件， 若失败， 但却得到一个目录， node会将目录作为一个包来处理</li>
+<li>包分析：查找并解析package.json， 取出main属性指定的文件名进行定位， 如果文件缺少扩展名，将会进入扩展名分析的步骤， 否则查找该目录下的index(.js|.json|.node)文件；</li>
+<li>如未果， 遍历module paths，逐个执行以上步骤</li>
+</ul>
+
+
+<h3>JS文件编译</h3>
+
+<p>Node.js在编译js文件的过程中实际完成的步骤有对js文件内容进行头尾包装。以app.js为例,包装之后的app.js将会 变成以下形式:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">￼</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">,</span> <span class="nx">module</span><span class="p">,</span> <span class="nx">__filename</span><span class="p">,</span> <span class="nx">__dirname</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">module</span><span class="p">.</span><span class="nx">paths</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1724,322 +1914,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/18/yun-xing-ji-zhi/">Javascript运行机制</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-18T22:07:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
-        
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>运行顺序</h2>
-
-<ol>
-<li>读入第一个代码段（js执行引擎并非一行一行地执行程序，而是一段一段地分析执行的）</li>
-<li>做词法分析和语法分析，没错则解析成语法树，有错则报语法错误并跳转到步骤5</li>
-<li>对var变量和function定义做预解析</li>
-<li>执行代码段，有错则报错（比如变量未定义）</li>
-<li>如果还有下一个代码段，则读入下一个代码段，重复步骤2</li>
-<li>结束
-</code></pre></li>
-</ol>
-
-
-<p>注: javascript是按块执行， 但是不同块属于同一个全局作用域， 即块之间的变量和函数是可以共享的；</p>
-
-<h2>词法分析</h2>
-
-<ol>
-<li><p>词法文法</p>
-
-<ul>
-<li><p>tokens： 文法终结符， 空白和注释之外的输入元素，如：ECMAScript语言的保留字，标识符，字面量，标点符号等</p></li>
-<li><p>行结束符虽然不被视为tokens，但会成为输入元素流的一部分，用于引导处理自动插入分号</p></li>
-<li><p>空白和单行注释会被简单的丢弃，不会出现在语法文法的输入元素的流中</p></li>
-<li><p>词法文法有两个目标符。InputElementDiv 目标符用在允许除法 (/) 或除赋值 (/=) 运算符开始的语法文法上下文中。InputElementRegExp 目标符用在其他语法文法上下文。</p></li>
-</ul>
-</li>
-<li><p>词法分析</p>
-
-<p> 当一个字符流被解析为 ECMAScript 程序，它首先通过词法文法应用程序反复转换为一个输入元素流；然后再用一个语法文法应用程序解析这个输入元素流。当输入元素流没有更多 tokens 时，如果 tokens 不能解析为 Program 目标非终结符的单一实例，那么程序在语法上存在错误。</p></li>
-<li><p>目标非终结符: TODO</p></li>
-</ol>
-
-
-<h2>语法分析</h2>
-
-<p>将词法分析阶段产生的记号， 生成语法树，如果无法生成，则报错；</p>
-
-<ol>
-<li>符号表：记录变量、函数、类</li>
-<li>语法树：程序结构的树形表示，将此树形结构生成中间代码</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/18/yuan-xing-lian/">原型链</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-18T20:16:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
-        
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>原型对象</h3>
-
-<h4>JS原型对象初始化</h4>
-
-<p>参考函数创建的简单步骤，如下:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>
-</span><span class='line'><span class="nx">F</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NativeObject</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//第一步：设置Class:function;</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Class</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;Function&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//第二步：函数对象的隐式prototype指向Function的显示原型, function的prototype也是一个对象, 是Object对象的实例, Object又是由Function构建出来的， 所以可以循环此步骤;</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Prototype</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//第三步：初始化</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Call</span><span class="p">]]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">reference</span> <span class="nx">to</span> <span class="kd">function</span><span class="o">&gt;</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Construct</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">internalConstructor</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//第四步：初始化当前执行上下文的作用域链</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Scope</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">activeContext</span><span class="p">.</span><span class="nx">Scope</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 如果函数通过new Function(...)来创建，那么</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.[[</span><span class="nx">Scope</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">globalContext</span><span class="p">.</span><span class="nx">Scope</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//第五步：初始化传入参数的个数</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">countParameters</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//第六步：F对象创建的原型</span>
-</span><span class='line'><span class="nx">__objectPrototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
-</span><span class='line'><span class="nx">__objectPrototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">F</span>
-</span><span class='line'><span class="nx">F</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">__objectPrototype</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="nx">F</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>什么是原型对象</h4>
-
-<ul>
-<li><p>从上面可以看出, 每一个构造函数都有一个原型属性, 称为prototype, 它指向一个对象, 这个对象称为原型对象;</p></li>
-<li><p>默认所有原型对象自动获得constructor属性；constructor又引用了函数本身，所以也形成了JS中的构造函数和prototype的循环引用；</p></li>
-</ul>
-
-
-<h4>原型对象的问题</h4>
-
-<ul>
-<li>原型对象是由所有实例共享，对于包含引用类型值的属性来说，修改会影响到所有的实例；</li>
-<li>原型模式广泛应用于原生的引用类型如Object、Array、String等, 但不推荐在程序中修改原生对象的原型, 容易导致命名冲突；</li>
-</ul>
-
-
-<h3>原型链</h3>
-
-<p>一般的解释:</p>
-
-<ul>
-<li>所有对象都可以有原型，并且原型也是对象，所以接着它们也可以有原型，原型又可以有原型，如此就形成了所谓的原型链。当链条中的对象有一个值为null 的原型时，原型链终止。</li>
-</ul>
-
-
-<p>ECMA的解释：</p>
-
-<ul>
-<li>Every object created by a constructor has an implicit reference (called the object’s prototype) to the value of its constructor’s “prototype” property. Furthermore, a prototype may have a non-null implicit reference to its prototype, and so on; this is called the prototype chain.</li>
-</ul>
-
-
-<p>看了如上中文解释，你肯定会困扰吧？是因为它只一味的提到原型； 而没有对隐式的原型 [[prototype]]和显示的prototype进行区分；</p>
-
-<p>所以你可能会认为, 按照第一种解释如下代码先寻找A.prototype, 发现A.prototype = null; 原型链终止，A.toString是不是会报undefined呢？</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">//分析function A的原型链</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">A</span><span class="p">()</span> <span class="p">{}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再看英文解释：
-Every object created by a constructor has an implicit reference (called the object’s prototype) to the value of its constructor’s “prototype” property；</p>
-
-<p>非常清晰：</p>
-
-<ul>
-<li>所有由构造器创建的对象都有一个隐式的prototype， 它指向构造器的prototype属性</li>
-<li>所以原型链其实是由当前对象的隐式prototype指针指向的对象的隐式prototype指针指向的对象的&hellip;., 直到隐式prototype指向的对象为空为至；有点饶；</li>
-</ul>
-
-
-<h3>Object的prototype是null吗?</h3>
-
-<p>解释一：Object 构造器的默认原型值为null；</p>
-
-<p>解释二：</p>
-
-<p>15.2.4 Properties of the Object Prototype Object</p>
-
-<p>The value of the [[Prototype]] internal property of the Object prototype object is null, the value of the [[Class]] internal property is &ldquo;Object&rdquo;, and the initial value of the [[Extensible]] internal property is true.</p>
-
-<p>解释一也存在和上面一样的问题,而英文的解释则非常明显:</p>
-
-<p>并非<code>Object.prototype = null</code>而是<code>function Object</code>中的隐式的<code>prototype</code>为<code>null</code>, 如下:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nb">Object</span><span class="p">()</span> <span class="p">{};</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
-</span><span class='line'><span class="nx">obj</span><span class="p">.[[</span><span class="nx">prototype</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span>
-</span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.[[</span><span class="nx">prototype</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>示例</h3>
-
-<p>看了上述的描述， 如果你完全理解了显示prototype和隐式prototype，我想你应该会很快n能画出如下对象的原型链了。试试看吧：</p>
-
-<p>示例1：请描述a对象的原型链</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">b</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="o">:</span> <span class="mi">3</span> <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">A</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>示例二：请描述b对象的原型链</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">A</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">b</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="o">:</span> <span class="mi">3</span> <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">B</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">A</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">B</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -2055,6 +1929,14 @@ Every object created by a constructor has an implicit reference (called the obje
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/">Node学习笔记2 —— Npm包管理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/">Node学习笔记1——require参数查找策略</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/12/js-encode/">JS URI Encode</a>
       </li>
     
@@ -2064,14 +1946,6 @@ Every object created by a constructor has an implicit reference (called the obje
     
       <li class="post">
         <a href="/blog/2013/10/30/events/">事件碎碎念</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/10/composite/">组合关系与组合模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/09/plugin/">YUI3组件框架之plugin</a>
       </li>
     
   </ul>

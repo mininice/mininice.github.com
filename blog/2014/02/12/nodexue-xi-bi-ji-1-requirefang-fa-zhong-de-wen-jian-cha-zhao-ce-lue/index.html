@@ -5,23 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>hello world - mininice</title>
+  <title>node学习笔记1——require参数查找策略 - mininice</title>
   <meta name="author" content="mininice">
 
   
-  <meta name="description" content="blog终于搭起来了, 想起了一句话： 少了大的惊喜, 也要找点小快乐! 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-(function() { this.person = { name: &#39;mininice&#39;, gender: &#39;女&#39;, company &hellip;">
+  <meta name="description" content="require参数类型 http、fs、path等,原生模块
+￼./mod或../mod,相对路径的文件模块
+/pathtomodule/mod,绝对路径的文件模块
+mod,非原生模块的文件模块 module paths 对于每一个被加载的文件模块, 创建这个模块对象的时候, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mininice.github.io/blog/2013/09/18/test">
+  <link rel="canonical" href="http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.bak.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="mininice" type="application/atom+xml">
@@ -80,7 +71,7 @@
   
   <header>
     
-      <h1 class="entry-title">Hello World</h1>
+      <h1 class="entry-title">Node学习笔记1——require参数查找策略</h1>
     
     
       <p class="meta">
@@ -96,7 +87,7 @@
   
 
 
-<time datetime="2013-09-18T12:11:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2014-02-12T14:15:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
         
 
         
@@ -105,32 +96,58 @@
   </header>
 
 
-<div class="entry-content"><p>blog终于搭起来了, 想起了一句话： 少了大的惊喜, 也要找点小快乐!</p>
+<div class="entry-content"><h3>require参数类型</h3>
+
+<ul>
+<li>http、fs、path等,原生模块</li>
+<li>￼./mod或../mod,相对路径的文件模块</li>
+<li>/pathtomodule/mod,绝对路径的文件模块</li>
+<li>mod,非原生模块的文件模块</li>
+</ul>
+
+
+<h3>module paths</h3>
+
+<ul>
+<li>对于每一个被加载的文件模块, 创建这个模块对象的时候,这个模块便会有一个paths属性, 其值根据当前文件的路径计算得到， 如果当前的文件路径为：/Users/jiao/workspace/test.js， 这module.paths的结果如下：</li>
+</ul>
+
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;mininice&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">gender</span><span class="o">:</span> <span class="s1">&#39;女&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">company</span><span class="o">:</span> <span class="s1">&#39;MEITUAN&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">position</span><span class="o">:</span> <span class="s1">&#39;FE&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">skills</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;javascript&quot;</span><span class="p">,</span> <span class="s2">&quot;css&quot;</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">],</span>
-</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;thinkable.love@gmail.com&#39;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">})();</span>
-</span><span class='line'>
-</span><span class='line'>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">[</span> <span class="s1">&#39;/Users/jiao/workspace/node_modules&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;/Users/jiao/node_modules&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;/Users/node_modules&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;/node_modules&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>除此之外还有一个全局module path,是当前node执行文件的相对目录 (../../lib/node)。如果在环境变量中设置了HOME目录和NODE_PATH目录的 话,整个路径还包含NODE_PATH和HOME目录下的.node_libraries 与.node_modules</li>
+</ul>
+
+
+<h3>查找策略</h3>
+
+<ul>
+<li>require() 通过分析文件路径和扩展名， 找到文件， 若失败， 但却得到一个目录， node会将目录作为一个包来处理</li>
+<li>包分析：查找并解析package.json， 取出main属性指定的文件名进行定位， 如果文件缺少扩展名，将会进入扩展名分析的步骤， 否则查找该目录下的index(.js|.json|.node)文件；</li>
+<li>如未果， 遍历module paths，逐个执行以上步骤</li>
+</ul>
+
+
+<h3>JS文件编译</h3>
+
+<p>Node.js在编译js文件的过程中实际完成的步骤有对js文件内容进行头尾包装。以app.js为例,包装之后的app.js将会 变成以下形式:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="err">￼</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">,</span> <span class="nx">module</span><span class="p">,</span> <span class="nx">__filename</span><span class="p">,</span> <span class="nx">__dirname</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">module</span><span class="p">.</span><span class="nx">paths</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -157,7 +174,7 @@
   
 
 
-<time datetime="2013-09-18T12:11:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2014-02-12T14:15:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
       
 
 
@@ -165,7 +182,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2013/09/18/test/" data-via="" data-counturl="http://mininice.github.io/blog/2013/09/18/test/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/" data-via="" data-counturl="http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/" >Tweet</a>
   
   
   
@@ -174,8 +191,10 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2014/02/12/js-encode/" title="Previous Post: JS URI Encode">&laquo; JS URI Encode</a>
       
-        <a class="basic-alignment right" href="/blog/2013/09/18/yuan-xing-lian/" title="Next Post: 原型链">原型链 &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2014/02/12/nodexue-xi-bi-ji-2-npmbao-guan-li/" title="Next Post: node学习笔记2 —— npm包管理">node学习笔记2 —— npm包管理 &raquo;</a>
       
     </p>
   </footer>
@@ -244,8 +263,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mininice.github.io/blog/2013/09/18/test/';
-        var disqus_url = 'http://mininice.github.io/blog/2013/09/18/test/';
+        var disqus_identifier = 'http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/';
+        var disqus_url = 'http://mininice.github.io/blog/2014/02/12/nodexue-xi-bi-ji-1-requirefang-fa-zhong-de-wen-jian-cha-zhao-ce-lue/';
         var disqus_script = 'embed.js';
       
     (function () {
