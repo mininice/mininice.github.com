@@ -5,23 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>hello world - mininice</title>
+  <title>js encode - mininice</title>
   <meta name="author" content="mininice">
 
   
-  <meta name="description" content="blog终于搭起来了, 想起了一句话： 少了大的惊喜, 也要找点小快乐! 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-(function() { this.person = { name: &#39;mininice&#39;, gender: &#39;女&#39;, company &hellip;">
+  <meta name="description" content="JavaScript encode javascript中存在几种对URL字符串进行编码的方法：escape/encodeURI/encodeURIComponent。这几种编码所起的作用各不相同。 1.escape 采用ISO Latin字符集对指定的字符串进行编码。所有的空格符、标点符号、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mininice.github.io/blog/2013/09/18/test">
+  <link rel="canonical" href="http://mininice.github.io/blog/2014/02/12/js-encode">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.bak.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="mininice" type="application/atom+xml">
@@ -80,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Hello World</h1>
+      <h1 class="entry-title">Js Encode</h1>
     
     
       <p class="meta">
@@ -96,7 +84,7 @@
   
 
 
-<time datetime="2013-09-18T12:11:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2014-02-12T13:52:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
         
 
         
@@ -105,36 +93,63 @@
   </header>
 
 
-<div class="entry-content"><p>blog终于搭起来了, 想起了一句话： 少了大的惊喜, 也要找点小快乐!</p>
+<div class="entry-content"><h3>JavaScript encode</h3>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;mininice&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">gender</span><span class="o">:</span> <span class="s1">&#39;女&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">company</span><span class="o">:</span> <span class="s1">&#39;MEITUAN&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">position</span><span class="o">:</span> <span class="s1">&#39;FE&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">skills</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;javascript&quot;</span><span class="p">,</span> <span class="s2">&quot;css&quot;</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">],</span>
-</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;thinkable.love@gmail.com&#39;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">})();</span>
-</span><span class='line'>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
+<p>javascript中存在几种对URL字符串进行编码的方法：escape/encodeURI/encodeURIComponent。这几种编码所起的作用各不相同。</p>
+
+<h4>1.escape</h4>
+
+<ul>
+<li><p>采用ISO Latin字符集对指定的字符串进行编码。所有的空格符、标点符号、特殊字符以及其他非ASCII字符都将被转化成%xx格式的字符编码（xx等于该字符 在字符集表里面的编码的16进制数字）。比如，空格符对应的编码是%20。</p></li>
+<li><p>不会被此方法编码的字符： @ * / +</p></li>
+</ul>
 
 
+<h4>2. encodeURI VS encodeURIComponent 方法</h4>
 
+<h5>背景</h5>
+
+<p>encodeURI 和 encodeURIComponent都是ECMA-262标准中定义的函数,兼容这个标准的语言（如JavaScript, ActionScript）都会实现这两个函数。</p>
+
+<p>它们用来对URI （RFC-2396）字符串进行编码的全局函数，但是它们的处理方式和使用场景有所不同. RFC-2396中对于 URI中的字符分类</p>
+
+<ul>
+<li>保留字符（reserved characters）：这类字符是URI中的保留关键字符，它们用于分割URI中的各个部分。这些字符是：&#8221;;&ldquo; | &rdquo;/&ldquo; | &rdquo;?&ldquo; | &rdquo;:&ldquo; | &rdquo;@&ldquo; | &rdquo;&amp;&ldquo; | &rdquo;=&ldquo; | &rdquo;+&ldquo; | &rdquo;$&ldquo; | &rdquo;,&#8221;</li>
+<li>Mark字符（mark characters）：这类字符在RFC-2396中特别定义，但是没有特别说明用途，可能是和别的RFC标准相关。 这些字符是：&#8221;&ndash;&ldquo; | &rdquo;_&ldquo; | &rdquo;.&ldquo; | &rdquo;!&ldquo; | &rdquo;~&ldquo; | &rdquo;*&ldquo; | &rdquo;&lsquo;&ldquo; | &rdquo;(&ldquo; | &rdquo;)&#8221;</li>
+<li>基本字符（alphanum characters）：这类字符是URI中的主体部分，它包括所有的大写字母、小写字母和数字</li>
+</ul>
+
+
+<h5>encodeURI</h5>
+
+<p>encodeURI: 该函数对传入字符串中的所有非（基本字符、Mark字符和保留字符）进行转义编码（escaping）。所有的需要转义的字符都按照UTF-8编码转化成为一个、两个或者三个字节的十六进制转义字符（％xx）</p>
+
+<h5>encodeURIComponent</h5>
+
+<p>该函数处理方式和encodeURI只有一个不同点，那就是对于保留字符同样做转义编码</p>
+
+<h4>3. NodeJS 中http模块获取参数时会自动通过decodeURIComponent进行解码</h4>
+
+<pre>
+function (paramName) {
+    if (req.method === "GET") {
+        return decodeURIComponent(req.query[paramName]);
+    } else if (req.method === "POST") {
+        if (typeof req.body === "object") {
+            return decodeURIComponent(req.body[paramName]);
+        } else {
+            return decodeURIComponent(JSON.stringify(req.body)[paramName]);
+        }
+    }
+}
+</pre>
+
+
+<h3>编码导致的页面乱码</h3>
+
+<p>对于中文字符串来说，如果不希望把字符串编码格式转化成UTF-8格式的（比如原页面和目标页面的charset是一致的时候），只需要使用escape。如果你的页面是GB2312或者其他的编码，而接受参数的页面是UTF-8编码的，就要采用encodeURI或者encodeURIComponent。</p>
+
+<p>另外，encodeURI/encodeURIComponent是在javascript1.5之后引进的，escape则在 javascript1.0版本就有。</p>
 </div>
 
 
@@ -157,7 +172,7 @@
   
 
 
-<time datetime="2013-09-18T12:11:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2014-02-12T13:52:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
       
 
 
@@ -165,7 +180,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2013/09/18/test/" data-via="" data-counturl="http://mininice.github.io/blog/2013/09/18/test/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://mininice.github.io/blog/2014/02/12/js-encode/" data-via="" data-counturl="http://mininice.github.io/blog/2014/02/12/js-encode/" >Tweet</a>
   
   
   
@@ -174,8 +189,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/11/06/iframe/" title="Previous Post: iframe及与页面之间的通信">&laquo; iframe及与页面之间的通信</a>
       
-        <a class="basic-alignment right" href="/blog/2013/09/18/yuan-xing-lian/" title="Next Post: 原型链">原型链 &raquo;</a>
       
     </p>
   </footer>
@@ -244,8 +259,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mininice.github.io/blog/2013/09/18/test/';
-        var disqus_url = 'http://mininice.github.io/blog/2013/09/18/test/';
+        var disqus_identifier = 'http://mininice.github.io/blog/2014/02/12/js-encode/';
+        var disqus_url = 'http://mininice.github.io/blog/2014/02/12/js-encode/';
         var disqus_script = 'embed.js';
       
     (function () {
