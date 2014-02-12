@@ -71,7 +71,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/02/12/js-encode/">Js Encode</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/02/12/js-encode/">JS URI Encode</a></h1>
     
     
       <p class="meta">
@@ -133,19 +133,29 @@
 
 <h4>3. NodeJS 中http模块获取参数时会自动通过decodeURIComponent进行解码</h4>
 
-<pre>
-function (paramName) {
-    if (req.method === "GET") {
-        return decodeURIComponent(req.query[paramName]);
-    } else if (req.method === "POST") {
-        if (typeof req.body === "object") {
-            return decodeURIComponent(req.body[paramName]);
-        } else {
-            return decodeURIComponent(JSON.stringify(req.body)[paramName]);
-        }
-    }
-}
-</pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="p">(</span><span class="nx">paramName</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">===</span> <span class="s2">&quot;GET&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">[</span><span class="nx">paramName</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">===</span> <span class="s2">&quot;POST&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">===</span> <span class="s2">&quot;object&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">[</span><span class="nx">paramName</span><span class="p">]);</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">)[</span><span class="nx">paramName</span><span class="p">]);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>编码导致的页面乱码</h3>
@@ -2047,7 +2057,7 @@ Every object created by a constructor has an implicit reference (called the obje
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/02/12/js-encode/">Js Encode</a>
+        <a href="/blog/2014/02/12/js-encode/">JS URI Encode</a>
       </li>
     
       <li class="post">
