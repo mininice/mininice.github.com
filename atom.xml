@@ -4,7 +4,7 @@
   <title><![CDATA[mininice]]></title>
   <link href="http://mininice.github.io/atom.xml" rel="self"/>
   <link href="http://mininice.github.io/"/>
-  <updated>2014-02-12T14:03:07+08:00</updated>
+  <updated>2014-02-12T14:05:38+08:00</updated>
   <id>http://mininice.github.io/</id>
   <author>
     <name><![CDATA[mininice]]></name>
@@ -18,9 +18,7 @@
     <link href="http://mininice.github.io/blog/2014/02/12/js-encode/"/>
     <updated>2014-02-12T13:52:00+08:00</updated>
     <id>http://mininice.github.io/blog/2014/02/12/js-encode</id>
-    <content type="html"><![CDATA[<h3>JavaScript encode</h3>
-
-<p>javascript中存在几种对URL字符串进行编码的方法：escape/encodeURI/encodeURIComponent。这几种编码所起的作用各不相同。</p>
+    <content type="html"><![CDATA[<p>javascript中存在几种对URL字符串进行编码的方法：escape/encodeURI/encodeURIComponent。这几种编码所起的作用各不相同。</p>
 
 <h4>1.escape</h4>
 
